@@ -1,6 +1,6 @@
 $(call inherit-product, device/nubia/nx40x/full_nx40x.mk)
 
-# Inherit some common CM stuff.
+# Inherit some common MK stuff.
 $(call inherit-product, vendor/mk/config/common_full_phone.mk)
 
 
