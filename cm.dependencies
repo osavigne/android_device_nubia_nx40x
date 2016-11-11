@@ -1,14 +1,14 @@
 [
   {
-    "repository": "android_vendor_nubia_nx40x",
-    "target_path": "vendor/nubia/nx40x"
+    "repository": "android_vendor_zte_nx402",
+    "target_path": "vendor/zte/nx402"
   },
   {
-    "repository": "android_device_qcom_common",
-    "target_path": "device/qcom/common"
+    "repository": "android_device_zte_nx402",
+    "target_path": "device/zte/nx402"
   },
   {
-    "repository": "android_kernel_nubia_nx403a",
-    "target_path": "kernel/nubia/nx403a"
+    "repository": "android_kernel_zte_nx402",
+    "target_path": "kernel/zte/nx402"
   }
 ]
