@@ -1,7 +1,7 @@
 #!/bin/bash
 
-VENDOR=nubia
-DEVICE=nx40x
+VENDOR=zte
+DEVICE=nx402
 OUTDIR=vendor/$VENDOR/$DEVICE
 MAKEFILE=../../../$OUTDIR/$DEVICE-vendor-blobs.mk
 
@@ -111,7 +111,7 @@ EOF
 
 LOCAL_PATH := \$(call my-dir)
 
-ifeq (\$(TARGET_DEVICE),nx40x)
+ifeq (\$(TARGET_DEVICE),nx402)
 
 include \$(CLEAR_VARS)
 LOCAL_MODULE := com.qualcomm.location

@@ -1,5 +1,5 @@
 #
-# system.prop for nx40x
+# system.prop for nx402
 #
 
 rild.libpath=/system/lib/libril-qc-qmi-1.so

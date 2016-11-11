@@ -13,6 +13,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-$(call inherit-product, device/nubia/nx40x/full_nx40x.mk)
+$(call inherit-product, device/zte/nx402/full_nx402.mk)
 
-PRODUCT_NAME := aosp_nx40x
+PRODUCT_NAME := aosp_nx402

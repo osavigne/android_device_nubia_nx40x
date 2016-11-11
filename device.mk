@@ -16,9 +16,9 @@
 
 $(call inherit-product, $(SRC_TARGET_DIR)/product/languages_full.mk)
 
-$(call inherit-product, vendor/nubia/nx40x/nx40x-vendor.mk)
+$(call inherit-product, vendor/zte/nx402/nx402-vendor.mk)
 
-DEVICE_PACKAGE_OVERLAYS += device/nubia/nx40x/overlay
+DEVICE_PACKAGE_OVERLAYS += device/zte/nx402/overlay
 
 # This device is xhdpi.  However the platform doesn't
 # currently contain all of the bitmaps at xhdpi density so
@@ -27,7 +27,7 @@ DEVICE_PACKAGE_OVERLAYS += device/nubia/nx40x/overlay
 PRODUCT_AAPT_CONFIG := normal hdpi xhdpi
 PRODUCT_AAPT_PREF_CONFIG := xhdpi
 
-LOCAL_PATH := device/nubia/nx40x
+LOCAL_PATH := device/zte/nx402
 
 # Snd_soc_msm
 PRODUCT_COPY_FILES += \

@@ -1,1 +1,1 @@
-require board=nx40x
+require board=nx402

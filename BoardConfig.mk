@@ -14,7 +14,7 @@
 # limitations under the License.
 
 # inherit from the proprietary version
--include vendor/nubia/nx40x/BoardConfigVendor.mk
+-include vendor/zte/nx402/BoardConfigVendor.mk
 
 MK_TOOLCHAIN_VARIANT := uber
 
@@ -22,10 +22,10 @@ MK_TOOLCHAIN_VARIANT := uber
 #TARGET_GLOBAL_CFLAGS += -mfpu=neon-vfpv4 -mfloat-abi=softfp
 #TARGET_GLOBAL_CPPFLAGS += -mfpu=neon-vfpv4 -mfloat-abi=softfp
 
-TARGET_SPECIFIC_HEADER_PATH := device/nubia/nx40x/include
+TARGET_SPECIFIC_HEADER_PATH := device/zte/nx402/include
 
 # Kernel inline build
-TARGET_KERNEL_SOURCE := kernel/nubia/nx403a
+TARGET_KERNEL_SOURCE := kernel/zte/nx402
 TARGET_KERNEL_CONFIG := cm_nubiamini_defconfig
 #TARGET_KERNEL_CUSTOM_TOOLCHAIN := arm-eabi-4.9
 
@@ -62,15 +62,15 @@ MALLOC_IMPL := dlmalloc
 
 # Bootloader
 TARGET_NO_BOOTLOADER         := true
-TARGET_BOOTLOADER_NAME       := nx40x
+TARGET_BOOTLOADER_NAME       := nx402
 TARGET_BOOTLOADER_BOARD_NAME := MSM8960
-TARGET_BOARD_INFO_FILE       := device/nubia/nx40x/board-info.txt
+TARGET_BOARD_INFO_FILE       := device/zte/nx402/board-info.txt
 
 # Others
 TARGET_NO_RADIOIMAGE       := true
 BOARD_USES_SECURE_SERVICES := true
-BOARD_LIB_DUMPSTATE        := libdumpstate.nx40x
-BOARD_EGL_CFG              := device/nubia/nx40x/configs/egl.cfg
+BOARD_LIB_DUMPSTATE        := libdumpstate.nx402
+BOARD_EGL_CFG              := device/zte/nx402/configs/egl.cfg
 
 # Kernel 
 BOARD_KERNEL_CMDLINE  := console=null androidboot.hardware=qcom user_debug=23 msm_rtb.filter=0x3F ehci-hcd.park=3 maxcpus=4 androidboot.selinux=disabled androidboot.bootdevice=msm_sdcc.1
@@ -135,24 +135,24 @@ WIFI_DRIVER_FW_PATH_AP           := "ap"
 BOARD_HAVE_BLUETOOTH                        := true
 BOARD_HAVE_BLUETOOTH_QCOM                   := true
 BLUETOOTH_HCI_USE_MCT                       := true
-BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/nubia/nx40x/bluetooth
+BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/zte/nx402/bluetooth
 
 # RIL class
-BOARD_RIL_CLASS := ../../../device/nubia/nx40x/ril/
+BOARD_RIL_CLASS := ../../../device/zte/nx402/ril/
 BOARD_PROVIDES_LIBRIL:=true
 
 #TARGET_NO_RECOVERY := true
 # Recovery
 BOARD_TOUCH_RECOVERY            := true
-TARGET_RECOVERY_FSTAB           := device/nubia/nx40x/rootdir/fstab.qcom
+TARGET_RECOVERY_FSTAB           := device/zte/nx402/rootdir/fstab.qcom
 RECOVERY_FSTAB_VERSION          := 2
 BOARD_SUPPRESS_SECURE_ERASE     := true
 BOARD_HAS_NO_SELECT_BUTTON      := true
 BOARD_HAS_LARGE_FILESYSTEM      := true
 BORAD_REC_LANG_CHINESE          := true
 TARGET_RECOVERY_PIXEL_FORMAT    := "RGBX_8888"
-#TARGET_RECOVERY_INITRC          := device/nubia/nx40x/recovery/init.rc
-#BOARD_CUSTOM_GRAPHICS           := ../../../device/nubia/nx40x/recovery/graphics.c
+#TARGET_RECOVERY_INITRC          := device/zte/nx402/recovery/init.rc
+#BOARD_CUSTOM_GRAPHICS           := ../../../device/zte/nx402/recovery/graphics.c
 BOARD_USE_CUSTOM_RECOVERY_FONT  := \"fontcn30_18x48.h\"
 TARGET_USE_CUSTOM_LUN_FILE_PATH := "/sys/devices/platform/msm_hsusb/gadget/lun%d/file"
 
