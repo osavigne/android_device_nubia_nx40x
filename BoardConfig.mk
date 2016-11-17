@@ -16,98 +16,210 @@
 # inherit from the proprietary version
 -include vendor/zte/nx402/BoardConfigVendor.mk
 
-MK_TOOLCHAIN_VARIANT := uber
+LOCAL_PATH := device/zte/nx402
 
-# Flags
-#TARGET_GLOBAL_CFLAGS += -mfpu=neon-vfpv4 -mfloat-abi=softfp
-#TARGET_GLOBAL_CPPFLAGS += -mfpu=neon-vfpv4 -mfloat-abi=softfp
+# Include path
+TARGET_SPECIFIC_HEADER_PATH := $(LOCAL_PATH)/include
 
-TARGET_SPECIFIC_HEADER_PATH := device/zte/nx402/include
+# Bootloader
+TARGET_BOOTLOADER_BOARD_NAME := MSM8960
+TARGET_NO_BOOTLOADER := true
+TARGET_NO_RADIOIMAGE := true
 
-# Kernel inline build
+# Platform
+TARGET_BOARD_PLATFORM := msm8960
+TARGET_BOARD_PLATFORM_GPU := qcom-adreno320
+TARGET_BOOTLOADER_BOARD_NAME := MSM8960
+TARGET_BOOTLOADER_NAME := nubia
+
+# Architecture
+TARGET_CPU_ABI := armeabi-v7a
+TARGET_CPU_ABI2 := armeabi
+TARGET_CPU_SMP := true
+TARGET_ARCH := arm
+TARGET_ARCH_VARIANT := armv7-a-neon
+TARGET_CPU_VARIANT := krait
+ARCH_ARM_HAVE_ARMV7A := true
+ARCH_ARM_HAVE_NEON := true
+ARCH_ARM_HAVE_TLS_REGISTER := true
+ARCH_ARM_HAVE_VFP := true
+
+# Assertions
+TARGET_BOARD_INFO_FILE := $(LOCAL_PATH)/board-info.txt
+
+# Kernel
+BOARD_KERNEL_CMDLINE := console=null androidboot.hardware=qcom user_debug=23 msm_rtb.filter=0x3F ehci-hcd.park=3 androidboot.bootdevice=msm_sdcc.1 androidboot.selinux=permissive
+BOARD_KERNEL_SEPARATED_DT := true
+BOARD_KERNEL_BASE := 0x80200000
+BOARD_KERNEL_PAGESIZE := 2048
+BOARD_MKBOOTIMG_ARGS := --ramdisk_offset 0x2000000 --tags_offset 0x01E00000 
 TARGET_KERNEL_SOURCE := kernel/zte/nx402
-TARGET_KERNEL_CONFIG := cm_nubiamini_defconfig
-#TARGET_KERNEL_CUSTOM_TOOLCHAIN := arm-eabi-4.9
+TARGET_KERNEL_ARCH := arm
+TARGET_KERNEL_CONFIG := msm8960-NX402_nomodules_defconfig
+#TARGET_KERNEL_CONFIG := cm_nubiamini_defconfig
+TARGET_ZTEMT_DTS := true
+TARGET_KERNEL_CROSS_COMPILE_PREFIX := arm-linux-androideabi-
 
-PRODUCT_COPY_FILES := $(filter-out frameworks/base/data/keyboards/Generic.kl:system/usr/keylayout/Generic.kl \
-	, $(PRODUCT_COPY_FILES))
+# Assert
+TARGET_OTA_ASSERT_DEVICE := NX402,nx402,Z5mini,z5mini,NX40x,nx40x
+
+# Audio
+BOARD_USES_ALSA_AUDIO := true
+AUDIO_FEATURE_ENABLED_MULTI_VOICE_SESSIONS := true
+AUDIO_FEATURE_ENABLED_NEW_SAMPLE_RATE := true
+AUDIO_FEATURE_LOW_LATENCY_PRIMARY := true
+AUDIO_FEATURE_ENABLED_ANC_HEADSET := true
+USE_CUSTOM_AUDIO_POLICY := 1
+
+# Bluetooth
+BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(LOCAL_PATH)/bluetooth
+BOARD_HAVE_BLUETOOTH := true
+BOARD_HAVE_BLUETOOTH_BCM := true
+#BOARD_HAVE_BLUETOOTH_QCOM                   := true
+BOARD_BLUETOOTH_USES_HCIATTACH_PROPERTY := false
+#BLUETOOTH_HCI_USE_MCT                       := true
+BOARD_CUSTOM_BT_CONFIG := device/zte/nx402/bluetooth/libbt_vndcfg.txt
+
+# Camera
+TARGET_HAS_LEGACY_CAMERA_HAL1 := true
+TARGET_NEEDS_PLATFORM_TEXT_RELOCATIONS := true
+TARGET_USE_COMPAT_GRALLOC_ALIGN := true
+USE_DEVICE_SPECIFIC_CAMERA := true
+
+# Don't build qcom camera HAL
+#USE_CAMERA_STUB                      := false
+#USE_DEVICE_SPECIFIC_CAMERA           := true
+#USE_DEVICE_SPECIFIC_QCOM_PROPRIETARY := true
+
+# Charger
+BACKLIGHT_PATH := /sys/class/leds/lcd-backlight/brightness
+BOARD_CHARGER_SHOW_PERCENTAGE := true
+BOARD_CHARGER_ENABLE_SUSPEND := true
+
+# CM Hardware
+BOARD_HARDWARE_CLASS := $(LOCAL_PATH)/cmhw/
+TARGET_TAP_TO_WAKE_NODE := "/data/configs/easy_wakeup_gesture"
+
+# Disable memcpy_base.S optimization
+TARGET_CPU_MEMCPY_BASE_OPT_DISABLE := true
+
+# Enable dexpreopt to speed boot time
+ifeq ($(HOST_OS),linux)
+  ifeq ($(call match-word-in-list,$(TARGET_BUILD_VARIANT),user),true)
+    ifeq ($(WITH_DEXPREOPT_BOOT_IMG_ONLY),)
+      WITH_DEXPREOPT_BOOT_IMG_ONLY := true
+    endif
+  endif
+endif
+
+# Filesystem
+TARGET_USERIMAGES_USE_F2FS := true
+BOARD_BOOTIMAGE_PARTITION_SIZE := 16777216
+BOARD_RECOVERYIMAGE_PARTITION_SIZE := 10485760
+BOARD_SYSTEMIMAGE_PARTITION_SIZE := 1266262016
+BOARD_CACHEIMAGE_PARTITION_SIZE := 524288000
+BOARD_USERDATAIMAGE_PARTITION_SIZE := 13205756928
+BOARD_FLASH_BLOCK_SIZE := 131072  # (BOARD_KERNEL_PAGESIZE * 64)
+
+
+#BOARD_BOOTIMAGE_PARTITION_SIZE     := 15728640 # 15M
+#BOARD_RECOVERYIMAGE_PARTITION_SIZE := 15728640 # 15M
+#BOARD_SYSTEMIMAGE_PARTITION_SIZE   := 1288491008 # 2G
+#BOARD_USERDATAIMAGE_PARTITION_SIZE := 2362232832 # 2.66G
+#BOARD_FLASH_BLOCK_SIZE             := 131072
+
+# Init msm8960
+TARGET_INIT_VENDOR_LIB := libinit_msm8960
+TARGET_RECOVERY_DEVICE_MODULES := libinit_msm8960
+
+# GPS
+BOARD_VENDOR_QCOM_LOC_PDK_FEATURE_SET := true
+USE_DEVICE_SPECIFIC_GPS := true
+USE_DEVICE_SPECIFIC_LOC_API := true
+
+# Graphics
+USE_OPENGL_RENDERER := true
+TARGET_USES_C2D_COMPOSITION := true
+TARGET_USES_ION := true
+OVERRIDE_RS_DRIVER := libRSDriver_adreno.so
+HAVE_ADRENO_SOURCE:= false
+NUM_FRAMEBUFFER_SURFACE_BUFFERS := 3
+
+# Shader cache config options
+# Maximum size of the  GLES Shaders that can be cached for reuse.
+# Increase the size if shaders of size greater than 12KB are used.
+MAX_EGL_CACHE_KEY_SIZE := 12*1024
+
+# Maximum GLES shader cache size for each app to store the compiled shader
+# binaries. Decrease the size if RAM or Flash Storage size is a limitation
+# of the device.
+MAX_EGL_CACHE_SIZE := 2048*1024
+
+# Keylayout
+PRODUCT_COPY_FILES := $(filter-out frameworks/base/data/keyboards/Generic.kl:system/usr/keylayout/Generic.kl , $(PRODUCT_COPY_FILES))
+
+# Libc
+TARGET_NEEDS_GCC_LIBC := true
+
+# Lights
+TARGET_PROVIDES_LIBLIGHT := true
 
 # QCOM hardware
 BOARD_USES_QCOM_HARDWARE := true
-COMMON_GLOBAL_CFLAGS     += -DNO_SECURE_DISCARD
+BOARD_USES_QC_TIME_SERVICES := true
+USE_DEVICE_SPECIFIC_QCOM_PROPRIETARY:= true
 
-# Architecture
-TARGET_ARCH := arm
-TARGET_ARCH_VARIANT       := armv7-a-neon
-TARGET_CPU_ABI            := armeabi-v7a
-TARGET_CPU_ABI2           := armeabi
-TARGET_CPU_SMP            := true
-TARGET_CPU_VARIANT        := krait
-TARGET_BOARD_PLATFORM     := msm8960
+BOARD_USES_SECURE_SERVICES := true
 
-# Krait optimizations
-TARGET_USE_QCOM_BIONIC_OPTIMIZATION  := true
-TARGET_USE_KRAIT_PLD_SET             := true
-TARGET_KRAIT_BIONIC_PLDOFFS          := 10
-TARGET_KRAIT_BIONIC_PLDTHRESH        := 10
-TARGET_KRAIT_BIONIC_BBTHRESH         := 64
-TARGET_KRAIT_BIONIC_PLDSIZE          := 64
+# Recovery
+TARGET_RECOVERY_FSTAB := $(LOCAL_PATH)/rootdir/fstab.qcom
+BOARD_VENDOR := zte-qcom
+BOARD_SUPPRESS_EMMC_WIPE := true
+BOARD_HAS_NO_SELECT_BUTTON := true
+BOARD_RECOVERY_SWIPE := true
+TARGET_RECOVERY_PIXEL_FORMAT := "RGBX_8888"
+TARGET_RECOVERY_DENSITY := xhdpi
+TARGET_USERIMAGES_USE_EXT4 := true
 
-TARGET_USES_LOGD:=false
-BOARD_USES_LEGACY_MMAP := true
-EXTENDED_FONT_FOOTPRINT := true
+# RIL
+TARGET_RIL_VARIANT := caf
+BOARD_GLOBAL_CFLAGS += -DUSE_RIL_VERSION_10
+BOARD_GLOBAL_CPPFLAGS += -DUSE_RIL_VERSION_10
+
+# RIL class
+#BOARD_RIL_CLASS := $(LOCAL_PATH)/ril/
+#BOARD_PROVIDES_LIBRIL:=true
+
+# RPC
+TARGET_NO_RPC := true
+
+# SELinux
+include device/qcom/sepolicy/sepolicy.mk
+
+BOARD_SEPOLICY_DIRS += \
+    $(LOCAL_PATH)/sepolicy
+
+# Wifi
+WPA_SUPPLICANT_VERSION      := VER_0_8_X
+BOARD_WLAN_DEVICE           := bcmdhd
+BOARD_WPA_SUPPLICANT_DRIVER := NL80211
+BOARD_WPA_SUPPLICANT_PRIVATE_LIB := lib_driver_cmd_$(BOARD_WLAN_DEVICE)
+BOARD_HOSTAPD_DRIVER        := NL80211
+BOARD_HOSTAPD_PRIVATE_LIB   := lib_driver_cmd_$(BOARD_WLAN_DEVICE)
+WIFI_DRIVER_FW_PATH_PARAM   := "/sys/module/bcmdhd/parameters/firmware_path"
+WIFI_DRIVER_FW_PATH_AP      := "/system/etc/firmware/bcm4339/fw_bcmdhd_apsta.bin"
+WIFI_DRIVER_FW_PATH_STA     := "/system/etc/firmware/bcm4339/fw_bcmdhd.bin"
+WIFI_DRIVER_FW_PATH_P2P     := "/system/etc/firmware/bcm4339/fw_bcmdhd_p2p.bin"
+WIFI_DRIVER_MODULE_ARG      := "nvram_path=/system/etc/firmware/bcm4339/nvram.txt"
 
 # Bionic
 MALLOC_SVELTE := true
 
-# Bootloader
-TARGET_NO_BOOTLOADER         := true
-TARGET_BOOTLOADER_NAME       := nx402
-TARGET_BOOTLOADER_BOARD_NAME := MSM8960
-TARGET_BOARD_INFO_FILE       := device/zte/nx402/board-info.txt
 
 # Others
-TARGET_NO_RADIOIMAGE       := true
 BOARD_USES_SECURE_SERVICES := true
-BOARD_LIB_DUMPSTATE        := libdumpstate.nx402
 BOARD_EGL_CFG              := device/zte/nx402/configs/egl.cfg
 
-# Kernel 
-BOARD_KERNEL_CMDLINE  := console=null androidboot.hardware=qcom user_debug=23 msm_rtb.filter=0x3F ehci-hcd.park=3 maxcpus=4 androidboot.selinux=disabled androidboot.bootdevice=msm_sdcc.1
-BOARD_KERNEL_BASE     := 0x80200000
-BOARD_KERNEL_PAGESIZE := 2048
-BOARD_MKBOOTIMG_ARGS  := --ramdisk_offset 0x02000000
-
-# Filesystem
-BOARD_HAS_LARGE_FILESYSTEM         := true
-TARGET_USERIMAGES_USE_EXT4         := true
-BOARD_BOOTIMAGE_PARTITION_SIZE     := 15728640 # 15M
-BOARD_RECOVERYIMAGE_PARTITION_SIZE := 15728640 # 15M
-BOARD_SYSTEMIMAGE_PARTITION_SIZE   := 1288491008 # 2G
-BOARD_USERDATAIMAGE_PARTITION_SIZE := 2362232832 # 2.66G
-BOARD_FLASH_BLOCK_SIZE             := 131072
-
-# GPS
-#BOARD_HAVE_NEW_QC_GPS := true
-#TARGET_NO_RPC         := true
-
-# Audio
-QCOM_FM_ENABLED                    := true
-AUDIO_FEATURE_ENABLED_FM           := true
-BOARD_USES_ALSA_AUDIO              := true
-BOARD_USES_LEGACY_ALSA_AUDIO       := true
-TARGET_USES_QCOM_COMPRESSED_AUDIO  := true
-BOARD_HAVE_NEW_QCOM_CSDCLIENT      := true
-BOARD_USES_SEPERATED_VOICE_SPEAKER := true
-BOARD_HAVE_CSD_FAST_CALL_SWITCH    := true
-
-# Display
-TARGET_USES_ION                 := true
-USE_OPENGL_RENDERER             := true
-TARGET_USES_C2D_COMPOSITION     := true
-HAVE_ADRENO_SOURCE              := false
-NUM_FRAMEBUFFER_SURFACE_BUFFERS := 3
-#OVERRIDE_RS_DRIVER := libRSDriver_adreno.so
 
 #Power HAL
 TARGET_POWERHAL_VARIANT:=qcom
@@ -118,71 +230,3 @@ BOARD_USES_QC_TIME_SERVICES := true
 # Webkit
 ENABLE_WEBGL            := true
 TARGET_FORCE_CPU_UPLOAD := true
-
-# FIXME: HOSTAPD-derived wifi driver
-BOARD_HAS_QCOM_WLAN              := true
-BOARD_HAS_QCOM_WLAN_SDK          := true
-BOARD_WLAN_DEVICE                := qcwcn
-WPA_SUPPLICANT_VERSION           := VER_0_8_X
-BOARD_WPA_SUPPLICANT_DRIVER      := NL80211
-BOARD_WPA_SUPPLICANT_PRIVATE_LIB := lib_driver_cmd_$(BOARD_WLAN_DEVICE)
-BOARD_HOSTAPD_DRIVER             := NL80211
-BOARD_HOSTAPD_PRIVATE_LIB        := lib_driver_cmd_$(BOARD_WLAN_DEVICE)
-WIFI_DRIVER_FW_PATH_STA          := "sta"
-WIFI_DRIVER_FW_PATH_AP           := "ap"
-
-# Bluetooth
-BOARD_HAVE_BLUETOOTH                        := true
-BOARD_HAVE_BLUETOOTH_QCOM                   := true
-BLUETOOTH_HCI_USE_MCT                       := true
-BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/zte/nx402/bluetooth
-
-# RIL class
-BOARD_RIL_CLASS := ../../../device/zte/nx402/ril/
-BOARD_PROVIDES_LIBRIL:=true
-
-#TARGET_NO_RECOVERY := true
-# Recovery
-BOARD_TOUCH_RECOVERY            := true
-TARGET_RECOVERY_FSTAB           := device/zte/nx402/rootdir/fstab.qcom
-RECOVERY_FSTAB_VERSION          := 2
-BOARD_SUPPRESS_SECURE_ERASE     := true
-BOARD_HAS_NO_SELECT_BUTTON      := true
-BOARD_HAS_LARGE_FILESYSTEM      := true
-BORAD_REC_LANG_CHINESE          := true
-TARGET_RECOVERY_PIXEL_FORMAT    := "RGBX_8888"
-#TARGET_RECOVERY_INITRC          := device/zte/nx402/recovery/init.rc
-#BOARD_CUSTOM_GRAPHICS           := ../../../device/zte/nx402/recovery/graphics.c
-BOARD_USE_CUSTOM_RECOVERY_FONT  := \"fontcn30_18x48.h\"
-TARGET_USE_CUSTOM_LUN_FILE_PATH := "/sys/devices/platform/msm_hsusb/gadget/lun%d/file"
-
-# TWRP Recovery
-DEVICE_RESOLUTION                := 720x1280
-#RECOVERY_SDCARD_ON_DATA         := true
-TW_INTERNAL_STORAGE_PATH         := "/sdcard"
-TW_INTERNAL_STORAGE_MOUNT_POINT  := "sdcard"
-TW_EXTERNAL_STORAGE_PATH         := "/external_sd"
-TW_EXTERNAL_STORAGE_MOUNT_POINT  := "external_sd"
-TW_NO_REBOOT_BOOTLOADER          := true
-TW_HAS_DOWNLOAD_MODE             := false
-TWRP_EVENT_LOGGING               := false
-RECOVERY_GRAPHICS_USE_LINELENGTH := true
-
-# Don't build qcom camera HAL
-USE_CAMERA_STUB                      := false
-USE_DEVICE_SPECIFIC_CAMERA           := true
-USE_DEVICE_SPECIFIC_QCOM_PROPRIETARY := true
-
--include device/qcom/sepolicy/sepolicy.mk
-
-# Enable dex-preoptimization to speed up first boot sequence
-ifeq ($(HOST_OS),linux)
-  ifeq ($(TARGET_BUILD_VARIANT),userdebug)
-    ifeq ($(WITH_DEXPREOPT),)
-      WITH_DEXPREOPT := true
-      WITH_DEXPREOPT_COMP := false
-    endif
-  endif
-endif
-#WITH_DEXPREOPT_BOOT_IMG_ONLY ?= true
-

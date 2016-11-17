@@ -1,14 +1,10 @@
 [
   {
-    "repository": "android_vendor_zte_nx402",
-    "target_path": "vendor/zte/nx402"
+    "repository": "android_device_qcom_common",
+    "target_path": "device/qcom/common"
   },
   {
-    "repository": "android_device_zte_nx402",
-    "target_path": "device/zte/nx402"
-  },
-  {
-    "repository": "android_kernel_zte_nx402",
-    "target_path": "kernel/zte/nx402"
+    "repository": "android_external_sony_boringssl-compat",
+    "target_path": "external/sony/boringssl-compat"
   }
 ]
