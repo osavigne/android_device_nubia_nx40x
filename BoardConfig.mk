@@ -55,8 +55,8 @@ BOARD_KERNEL_PAGESIZE := 2048
 BOARD_MKBOOTIMG_ARGS := --ramdisk_offset 0x2000000 --tags_offset 0x01E00000 
 TARGET_KERNEL_SOURCE := kernel/zte/nx402
 TARGET_KERNEL_ARCH := arm
-TARGET_KERNEL_CONFIG := msm8960-NX402_nomodules_defconfig
-#TARGET_KERNEL_CONFIG := cm_nubiamini_defconfig
+#TARGET_KERNEL_CONFIG := msm8960-NX402_nomodules_defconfig
+TARGET_KERNEL_CONFIG := msm8960_defconfig
 TARGET_ZTEMT_DTS := true
 TARGET_KERNEL_CROSS_COMPILE_PREFIX := arm-linux-androideabi-
 
@@ -200,17 +200,23 @@ BOARD_SEPOLICY_DIRS += \
     $(LOCAL_PATH)/sepolicy
 
 # Wifi
+BOARD_HAS_QCOM_WLAN              := true
+BOARD_HAS_QCOM_WLAN_SDK          := true
 WPA_SUPPLICANT_VERSION      := VER_0_8_X
-BOARD_WLAN_DEVICE           := bcmdhd
+BOARD_WLAN_DEVICE           := qcwcn
 BOARD_WPA_SUPPLICANT_DRIVER := NL80211
 BOARD_WPA_SUPPLICANT_PRIVATE_LIB := lib_driver_cmd_$(BOARD_WLAN_DEVICE)
 BOARD_HOSTAPD_DRIVER        := NL80211
 BOARD_HOSTAPD_PRIVATE_LIB   := lib_driver_cmd_$(BOARD_WLAN_DEVICE)
-WIFI_DRIVER_FW_PATH_PARAM   := "/sys/module/bcmdhd/parameters/firmware_path"
-WIFI_DRIVER_FW_PATH_AP      := "/system/etc/firmware/bcm4339/fw_bcmdhd_apsta.bin"
-WIFI_DRIVER_FW_PATH_STA     := "/system/etc/firmware/bcm4339/fw_bcmdhd.bin"
-WIFI_DRIVER_FW_PATH_P2P     := "/system/etc/firmware/bcm4339/fw_bcmdhd_p2p.bin"
-WIFI_DRIVER_MODULE_ARG      := "nvram_path=/system/etc/firmware/bcm4339/nvram.txt"
+#WIFI_DRIVER_FW_PATH_PARAM   := "/home/otto/android/system/hardware/boradcom/wlan/bcmdhd/firmware/bcm4339"
+WIFI_DRIVER_FW_PATH_AP      := "/home/otto/android/system/hardware/boradcom/wlan/bcmdhd/firmware/bcm4339/fw_bcmdhd_apsta.bin"
+WIFI_DRIVER_FW_PATH_STA     := "/home/otto/android/system/hardware/boradcom/wlan/bcmdhd/firmware/bcm4339/fw_bcmdhd.bin"
+#WIFI_DRIVER_FW_PATH_P2P     := "/system/etc/firmware/bcm4339/fw_bcmdhd_p2p.bin"
+#WIFI_DRIVER_MODULE_ARG      := "nvram_path=/system/etc/firmware/bcm4339/nvram.txt"
+
+#WIFI_DRIVER_FW_PATH_STA          := "sta"
+#WIFI_DRIVER_FW_PATH_AP := "ap"
+
 
 # Bionic
 MALLOC_SVELTE := true
